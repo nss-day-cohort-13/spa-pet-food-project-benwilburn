@@ -9,10 +9,14 @@ newRequest2.send();
 
 function buildDom(foodArray) {
   for (var i = 0; i < foodArray.length; i++) {
+ 	var arrayType = foodArray[i].types;
+ 	var breedString= "";
+ 	if(foodArray[i].name === "Purrina" || foodArray[i].name === "Meow Meal"){
+ 		breedString = "Breeds:" ;
+ 	}
   	// console.log(dogFoodArray);
   	// console.log(dogFoodArray[i]);
-  	productPage.innerHTML += "<h2>" + foodArray[i].name + "</h2>";
- 	var arrayType = foodArray[i].types;
+  	productPage.innerHTML += "<h2>" + foodArray[i].name + "</h2>" + "<h4>" + breedString + "</h4>";
 
 	if (foodArray[i].breeds) {
 	  var breeds = foodArray[i].breeds;
