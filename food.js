@@ -1,4 +1,5 @@
-var productPage = document.getElementById("products");
+var dogProductPage = document.getElementById("dogProducts");
+var catProductPage = document.getElementById("catProducts");
 var newRequest = new XMLHttpRequest();
 var newRequest2 = new XMLHttpRequest();
 
@@ -7,48 +8,60 @@ newRequest.send();
 newRequest2.open("GET", "catFood.json", true);
 newRequest2.send();
 
-function buildDom(foodArray) {
+function buildDogDom(foodArray) {
   for (var i = 0; i < foodArray.length; i++) {
  	var arrayType = foodArray[i].types;
- 	var breedString= "";
- 	if(foodArray[i].name === "Purrina" || foodArray[i].name === "Meow Meal"){
- 		breedString = "Breeds:" ;
- 	}
-  	// console.log(dogFoodArray);
-  	// console.log(dogFoodArray[i]);
-  	productPage.innerHTML += "<h2>" + foodArray[i].name + "</h2>" + "<h4>" + breedString + "</h4>";
-
-	if (foodArray[i].breeds) {
-	  var breeds = foodArray[i].breeds;
-	  for (var z = 0; z < breeds.length; z++) {
-		console.log(breeds[z]);
-		productPage.innerHTML += "<p>" + breeds[z] + "</p>";
-	  }
- 	}
-
     for (var j = 0; j < arrayType.length; j++) {
-	  // console.log(arrayType[j].type);
-	  productPage.innerHTML += "<h4>Type: " + arrayType[j].type + "</h4>";
-	  var arrayVolumes = arrayType[j].volumes;
+      var arrayVolumes = arrayType[j].volumes;
+      // console.log(arrayType[j].type);
+      // productPage.innerHTML += "<h4>Type: " + arrayType[j].type + "</h4>";
 
-	  for (var a = 0; a < arrayVolumes.length; a++) {
-	  productPage.innerHTML += "<p> size: " + arrayVolumes[a].name + "</p>" + "<p> price: " + arrayVolumes[a].price + "</p>";
-  		}
+      for (var a = 0; a < arrayVolumes.length; a++) {
+        // productPage.innerHTML += "<p> size: " + arrayVolumes[a].name + "</p>" + "<p> price: " + arrayVolumes[a].price + "</p>";
 
-  	}
+        dogProductPage.innerHTML += "<tr><td>" + foodArray[i].name + "</td>" +
+                                   "<td>" + arrayType[j].type + "</td>" +
+                                   "<td>" + arrayVolumes[a].name + "</td>" +
+                                   "<td>" + arrayVolumes[a].price + "</td></tr>";
+      }
+    }
   }
-}
+ }
+
+function buildCatDom(foodArray) {
+  for (var i = 0; i < foodArray.length; i++) {
+  var catBreed = foodArray[i].breeds;
+    for (var b = 0; b < catBreed.length; b++) {
+      var arrayType = foodArray[i].types;
+      for (var j = 0; j < arrayType.length; j++) {
+        var arrayVolumes = arrayType[j].volumes;
+        // console.log(arrayType[j].type);
+        // productPage.innerHTML += "<h4>Type: " + arrayType[j].type + "</h4>";
+
+        for (var a = 0; a < arrayVolumes.length; a++) {
+          // productPage.innerHTML += "<p> size: " + arrayVolumes[a].name + "</p>" + "<p> price: " + arrayVolumes[a].price + "</p>";
+
+            catProductPage.innerHTML += "<tr><td>" + foodArray[i].name + "</td>" +
+                                     "<td>" + catBreed[b] + "</td>" +
+                                     "<td>" + arrayType[j].type + "</td>" +
+                                     "<td>" + arrayVolumes[a].name + "</td>" +
+                                     "<td>" + arrayVolumes[a].price + "</td></tr>";
+        }
+      }
+    }
+  }
+ }
 
 function initDog () {
   var data = JSON.parse(this.responseText);
   var dogFoodArray = data.dog_brands;
-  buildDom(dogFoodArray);
+  buildDogDom(dogFoodArray);
 }
 
 function initCat () {
   var data = JSON.parse(this.responseText);
   var catFoodArray = data.cat_brands;
-  buildDom(catFoodArray);
+  buildCatDom(catFoodArray);
 }
 
 newRequest.addEventListener("load", initDog);
